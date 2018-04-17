@@ -1,7 +1,7 @@
 <template>
   <div id="map-chart-root">
     <keep-alive>
-      <div id="myBigChart" :style="{width: '100%', height: '960px'}"></div>
+      <div id="myBigChart" :style="{width: '100%', height: height}"></div>
     </keep-alive>
   </div>
 </template>
@@ -11,13 +11,26 @@ export default {
   name: 'hello',
   data () {
     return {
-      optionData: {}
+      optionData: {},
+      height: ''
     }
+  },
+  created () {
+    this.height = this.getClientHeight() + 'px'
   },
   mounted () {
     this.drawSun()
   },
   methods: {
+    getClientHeight () {
+      let clientHeight = 0
+      if (document.body.clientHeight && document.documentElement.clientHeight) {
+        clientHeight = (document.body.clientHeight < document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight
+      } else {
+        clientHeight = (document.body.clientHeight > document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight
+      }
+      return clientHeight
+    },
     drawSun () {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(
