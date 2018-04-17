@@ -5,6 +5,8 @@
     </keep-alive>
     <!-- <button @click="changeOp">改变参数</button>
     <button @click="goNext">看看别的</button> -->
+      <button @click="goNext">来点炫酷的</button>
+
   </div>
 
 </template>
@@ -32,32 +34,42 @@ export default {
 
       // 绘制图表
       myChart.setOption({
+        title: {
+          text: '拉个图图',
+          subtext: '嘿嘿嘿？',
+          borderColor: '#ccc'
+        },
         series: {
           type: 'sunburst',
           data: [{
-            name: 'A',
+            name: '张涛',
             value: 10,
             children: [{
               value: 3,
-              name: 'Aa'
+              name: '自作主张在'
             }, {
-              value: 5,
-              name: 'Ab'
+              value: 7,
+              name: '少时诵诗书'
             }]
           }, {
-            name: 'B',
+            name: '钟英',
             children: [{
-              name: 'Ba',
+              name: '萨发广告',
               value: 4
             }, {
-              name: 'Bb',
+              name: '滑哥饭店啥',
               value: 2
             }]
           }, {
-            name: 'C',
+            name: '跑跑',
             value: 3
           }]
         }
+      })
+    },
+    goNext () {
+      this.$router.push({
+        name: 'aGoodDemo'
       })
     }
     // changeOp() {

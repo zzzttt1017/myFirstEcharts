@@ -73,8 +73,6 @@ export default {
       this.drawLine()
     },
     goNext () {
-      this.timing = false
-      this.timingGetTime()
       this.$router.push({
         name: 'sunChart'
       })
