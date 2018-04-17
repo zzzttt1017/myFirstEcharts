@@ -11,56 +11,55 @@
 
 <script>
 export default {
-  name: "hello",
-  data() {
+  name: 'hello',
+  data () {
     return {
-      msg: "Welcome to Your Vue.js App",
+      msg: 'Welcome to Your Vue.js App',
       flag: true,
       optionData: {}
-    };
+    }
   },
-  mounted() {
-    this.drawSun();
+  mounted () {
+    this.drawSun()
   },
   methods: {
-    drawSun() {
+    drawSun () {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(
-        document.getElementById("mySunChart"),
-        "light"
-      );
+        document.getElementById('mySunChart'),
+        'light'
+      )
 
       // 绘制图表
-      var _this = this;
       myChart.setOption({
-    series: {
-        type: 'sunburst',
-        data: [{
+        series: {
+          type: 'sunburst',
+          data: [{
             name: 'A',
             value: 10,
             children: [{
-                value: 3,
-                name: 'Aa'
+              value: 3,
+              name: 'Aa'
             }, {
-                value: 5,
-                name: 'Ab'
+              value: 5,
+              name: 'Ab'
             }]
-        }, {
+          }, {
             name: 'B',
             children: [{
-                name: 'Ba',
-                value: 4
+              name: 'Ba',
+              value: 4
             }, {
-                name: 'Bb',
-                value: 2
+              name: 'Bb',
+              value: 2
             }]
-        }, {
+          }, {
             name: 'C',
             value: 3
-        }]
+          }]
+        }
+      })
     }
-      });
-    },
     // changeOp() {
     //   if (this.flag) {
     //     this.optionData.xAxisData = ["衬衫", "羊毛衫", "雪纺衫"];
@@ -88,5 +87,5 @@ export default {
     //   });
     // }
   }
-};
+}
 </script>
