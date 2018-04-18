@@ -30,10 +30,10 @@ export default {
   mounted () {
   },
   methods: {
-    initialization () {
+    initialization () { // 初始化数据
       let cityList = ['北京', '天津', '上海', '重庆', '河北', '河南', '云南', '辽宁', '黑龙江', '湖南', '安徽', '山东', '新疆', '江苏', '浙江', '江西', '湖北', '广西', '甘肃', '山西', '内蒙古', '陕西', '吉林', '福建', '贵州', '广东', '青海', '西藏', '四川', '宁夏', '海南', '台湾', '香港', '澳门']
-      for (let i = 0; i < cityList.length; i++) {
-        let value = Math.round(Math.random() * 1000)
+      for (let i in cityList) {
+        let value = Math.round(Math.random() * 1000) // 产生0到1000的整数
         let list = {name: cityList[i], value: value}
         this.Data.push(list)
       }
@@ -41,8 +41,8 @@ export default {
         this.drawMapChart()
       })
 
-      this.autoGetDataInterval = setInterval(() => { // 定时器
-        for (let i = 0; i < this.Data.length; i++) {
+      this.autoGetDataInterval = setInterval(() => { // 定时获取数据并绘制
+        for (let i in this.Data) {
           this.Data[i].value = Math.round(Math.random() * 1000)
         }
         this.maxValue = this.getMaxValue(this.Data)
@@ -51,7 +51,7 @@ export default {
     },
     getMaxValue (arr) { // 获取最大的车辆数
       let arr2 = []
-      for (let i = 0; i < arr.length; i++) {
+      for (let i in arr) {
         arr2.push(arr[i].value)
       }
       return parseInt(Math.max(...arr2))
@@ -146,7 +146,6 @@ export default {
               itemStyle: {
                 areaColor: '#fff',
                 borderWidth: 1.2
-
               },
               emphasis: {
                 itemStyle: {
@@ -159,10 +158,10 @@ export default {
             }
           ]
         },
-        media: [ // 这里定义了 media query 的逐条规则。
+        media: [ // 媒体查询
           {
-            query: {maxHeight: 736}, // 这里写规则。
-            option: { // 这里写此规则满足下的option。
+            query: {maxHeight: 736}, // 规则。
+            option: { // 规则满足下的option。
               title: {
                 textStyle: {
                   color: '#fff',
