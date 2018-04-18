@@ -1,7 +1,7 @@
 <template>
   <div id="map-chart-root">
     <keep-alive>
-      <div id="myBigChart" :style="{width: '100%', height: height}"></div>
+      <div id="mapChart" :style="{width: '100%', height: height}"></div>
     </keep-alive>
   </div>
 </template>
@@ -11,7 +11,9 @@ export default {
   name: 'hello',
   data () {
     return {
-      optionData: {}
+      Data: [],
+      maxValue: 100,
+      autoGetDataInterval: null
     }
   },
   props: {
@@ -23,24 +25,47 @@ export default {
     }
   },
   created () {
+    this.initialization()
   },
   mounted () {
-    this.drawSun()
   },
   methods: {
+    initialization () {
+      let cityList = ['北京', '天津', '上海', '重庆', '河北', '河南', '云南', '辽宁', '黑龙江', '湖南', '安徽', '山东', '新疆', '江苏', '浙江', '江西', '湖北', '广西', '甘肃', '山西', '内蒙古', '陕西', '吉林', '福建', '贵州', '广东', '青海', '西藏', '四川', '宁夏', '海南', '台湾', '香港', '澳门']
+      for (let i = 0; i < cityList.length; i++) {
+        let value = Math.round(Math.random() * 1000)
+        let list = {name: cityList[i], value: value}
+        this.Data.push(list)
+      }
+      setTimeout(() => {
+        this.drawMapChart()
+      })
 
-    drawSun () {
+      this.autoGetDataInterval = setInterval(() => { // 定时器
+        for (let i = 0; i < this.Data.length; i++) {
+          this.Data[i].value = Math.round(Math.random() * 1000)
+        }
+        this.maxValue = this.getMaxValue(this.Data)
+        this.drawMapChart()
+      }, 3000)
+    },
+    getMaxValue (arr) { // 获取最大的车辆数
+      let arr2 = []
+      for (let i = 0; i < arr.length; i++) {
+        arr2.push(arr[i].value)
+      }
+      return parseInt(Math.max(...arr2))
+    },
+    drawMapChart () {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(
-        document.getElementById('myBigChart'),
+        document.getElementById('mapChart'),
         'light'
       )
 
-      // 绘制图表
-      myChart.setOption({
+      let option = {
         title: {
           text: '车辆探知来源地色差分布',
-          subtext: '假数据',
           textStyle: {
             color: '#fff',
             fontSize: '30',
@@ -59,33 +84,52 @@ export default {
         // },
         visualMap: {
           min: 0,
-          max: 100,
-          splitNumber: 5,
+          // max: this.maxValue,//取最大值自动分段
+          max: 1000,
+          // pieces: [ // 自定分段
+          //   {min: 1500},
+          //   {min: 900, max: 1500},
+          //   {min: 310, max: 1000},
+          //   {min: 200, max: 300},
+          //   {min: 10, max: 200, label: '10 到 200（自定义label）'},
+          //   {value: 123, label: '123（自定义特殊颜色）', color: 'grey'},
+          //   {min: 5, max: 5, label: '5（自定义特殊颜色）', color: 'black'},
+          //   {max: 5}
+          // ],
+          splitNumber: 4,
           right: '5%',
-          top: '10%',
+          top: '40%',
           textStyle: {
-            color: '#fff'
+            color: '#fff',
+            fontSize: '30',
+            fontWeight: '100'
           },
           color: ['#C81F2C', '#FE9143', '#FE9798', '#A6A6A6'],
-          itemSymbol: 'circle',
-          itemWidth: 80,
-          itemHeight: 20
-
+          itemSymbol: 'arrow',
+          itemWidth: '80',
+          itemHeight: '30',
+          align: 'auto',
+          itemGap: 30
         },
-        toolbox: {
-          show: true,
-          orient: 'vertical',
-          left: 'right',
-          top: 'center',
-          feature: {
-            mark: {show: true},
-            dataView: {show: false, readOnly: false},
-            restore: {show: false},
-            saveAsImage: {show: true}
-          }
-        },
+        // toolbox: {
+        //   show: true,
+        //   orient: 'vertical',
+        //   left: 'right',
+        //   top: 'center',
+        //   feature: {
+        //     mark: {show: true},
+        //     dataView: {show: false, readOnly: false},
+        //     restore: {show: false},
+        //     saveAsImage: {show: true}
+        //   }
+        // },
         series: [
           {
+            normal: {label: {show: true}},
+            selectedMode: 'single',
+            hoverable: false,
+            left: 'center',
+            top: 'middle',
             name: '车辆',
             type: 'map',
             mapType: 'china',
@@ -100,7 +144,7 @@ export default {
             },
             itemStyle: {
               areaColor: '#fff',
-              borderWidth: 1
+              borderWidth: 1.2
 
             },
             emphasis: {
@@ -110,47 +154,17 @@ export default {
                 shadowColor: '#fff'
               }
             },
-            data: [
-              {name: '北京', value: Math.round(Math.random() * 100)},
-              {name: '天津', value: Math.round(Math.random() * 100)},
-              {name: '上海', value: Math.round(Math.random() * 100)},
-              {name: '重庆', value: Math.round(Math.random() * 100)},
-              {name: '河北', value: Math.round(Math.random() * 100)},
-              {name: '河南', value: Math.round(Math.random() * 100)},
-              {name: '云南', value: Math.round(Math.random() * 100)},
-              {name: '辽宁', value: Math.round(Math.random() * 100)},
-              {name: '黑龙江', value: Math.round(Math.random() * 100)},
-              {name: '湖南', value: Math.round(Math.random() * 100)},
-              {name: '安徽', value: Math.round(Math.random() * 100)},
-              {name: '山东', value: Math.round(Math.random() * 100)},
-              {name: '新疆', value: null}, // Math.round(Math.random() * 100)
-              {name: '江苏', value: Math.round(Math.random() * 100)},
-              {name: '浙江', value: Math.round(Math.random() * 100)},
-              {name: '江西', value: Math.round(Math.random() * 100)},
-              {name: '湖北', value: Math.round(Math.random() * 100)},
-              {name: '广西', value: Math.round(Math.random() * 100)},
-              {name: '甘肃', value: Math.round(Math.random() * 100)},
-              {name: '山西', value: Math.round(Math.random() * 100)},
-              {name: '内蒙古', value: Math.round(Math.random() * 100)},
-              {name: '陕西', value: Math.round(Math.random() * 100)},
-              {name: '吉林', value: Math.round(Math.random() * 100)},
-              {name: '福建', value: Math.round(Math.random() * 100)},
-              {name: '贵州', value: Math.round(Math.random() * 100)},
-              {name: '广东', value: Math.round(Math.random() * 100)},
-              {name: '青海', value: Math.round(Math.random() * 100)},
-              {name: '西藏', value: Math.round(Math.random() * 100)},
-              {name: '四川', value: Math.round(Math.random() * 100)},
-              {name: '宁夏', value: Math.round(Math.random() * 100)},
-              {name: '海南', value: Math.round(Math.random() * 100)},
-              {name: '台湾', value: Math.round(Math.random() * 100)},
-              {name: '香港', value: Math.round(Math.random() * 100)},
-              {name: '澳门', value: Math.round(Math.random() * 100)}
-            ]
+            data: this.Data
           }
         ]
-      })
+      }
+      // 绘制图表
+      myChart.setOption(option)
     }
 
+  },
+  destroyed () {
+    clearInterval(this.autoGetDataInterval)
   }
 }
 </script>
