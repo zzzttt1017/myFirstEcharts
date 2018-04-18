@@ -64,99 +64,132 @@ export default {
       )
 
       let option = {
-        title: {
-          text: '车辆探知来源地色差分布',
-          textStyle: {
-            color: '#fff',
-            fontSize: '30',
-            fontWeight: '100'
-          },
-          left: 'center',
-          top: '20'
-        },
-        tooltip: {
-          trigger: 'item'
-        },
-        // legend: {
-        //   orient: 'vertical',
-        //   left: 'left',
-        //   data: ['iphone3', 'iphone4', 'iphone5']
-        // },
-        visualMap: {
-          min: 0,
-          // max: this.maxValue,//取最大值自动分段
-          max: 1000,
-          // pieces: [ // 自定分段
-          //   {min: 1500},
-          //   {min: 900, max: 1500},
-          //   {min: 310, max: 1000},
-          //   {min: 200, max: 300},
-          //   {min: 10, max: 200, label: '10 到 200（自定义label）'},
-          //   {value: 123, label: '123（自定义特殊颜色）', color: 'grey'},
-          //   {min: 5, max: 5, label: '5（自定义特殊颜色）', color: 'black'},
-          //   {max: 5}
-          // ],
-          splitNumber: 4,
-          right: '5%',
-          top: '40%',
-          textStyle: {
-            color: '#fff',
-            fontSize: '30',
-            fontWeight: '100'
-          },
-          color: ['#C81F2C', '#FE9143', '#FE9798', '#A6A6A6'],
-          itemSymbol: 'arrow',
-          itemWidth: '80',
-          itemHeight: '30',
-          align: 'auto',
-          itemGap: 30
-        },
-        // toolbox: {
-        //   show: true,
-        //   orient: 'vertical',
-        //   left: 'right',
-        //   top: 'center',
-        //   feature: {
-        //     mark: {show: true},
-        //     dataView: {show: false, readOnly: false},
-        //     restore: {show: false},
-        //     saveAsImage: {show: true}
-        //   }
-        // },
-        series: [
-          {
-            normal: {label: {show: true}},
-            selectedMode: 'single',
-            hoverable: false,
-            left: 'center',
-            top: 'middle',
-            name: '车辆',
-            type: 'map',
-            mapType: 'china',
-            roam: false,
-            label: {
-              show: false,
+        baseOption: {
+          title: {
+            text: '车辆探知来源地色差分布',
+            textStyle: {
               color: '#fff',
-              emphasis: {
-                color: '#000',
-                fontWeight: 'bolder'
-              }
+              fontSize: '40',
+              fontWeight: '100'
             },
-            itemStyle: {
-              areaColor: '#fff',
-              borderWidth: 1.2
-
+            left: 'center',
+            top: '20'
+          },
+          tooltip: {
+            trigger: 'item'
+          },
+          // legend: {
+          //   orient: 'vertical',
+          //   left: 'left',
+          //   data: ['iphone3', 'iphone4', 'iphone5']
+          // },
+          visualMap: {
+            min: 0,
+            // max: this.maxValue,//取最大值自动分段
+            max: 1000,
+            // pieces: [ // 自定分段
+            //   {min: 1500},
+            //   {min: 900, max: 1500},
+            //   {min: 310, max: 1000},
+            //   {min: 200, max: 300},
+            //   {min: 10, max: 200, label: '10 到 200（自定义label）'},
+            //   {value: 123, label: '123（自定义特殊颜色）', color: 'grey'},
+            //   {min: 5, max: 5, label: '5（自定义特殊颜色）', color: 'black'},
+            //   {max: 5}
+            // ],
+            splitNumber: 4,
+            right: '5%',
+            top: '40%',
+            textStyle: {
+              color: '#fff',
+              fontSize: '30',
+              fontWeight: 'normal'
             },
-            emphasis: {
+            color: ['#C81F2C', '#FE9143', '#FE9798', '#A6A6A6'],
+            itemSymbol: 'arrow',
+            itemWidth: '80',
+            itemHeight: '30',
+            align: 'auto',
+            itemGap: 30
+          },
+          // toolbox: {
+          //   show: true,
+          //   orient: 'vertical',
+          //   left: 'right',
+          //   top: 'center',
+          //   feature: {
+          //     mark: {show: true},
+          //     dataView: {show: false, readOnly: false},
+          //     restore: {show: false},
+          //     saveAsImage: {show: true}
+          //   }
+          // },
+          series: [
+            {
+              normal: {label: {show: true}},
+              selectedMode: 'single',
+              hoverable: false,
+              left: 'center',
+              top: 'middle',
+              name: '车辆',
+              type: 'map',
+              mapType: 'china',
+              roam: false,
+              label: {
+                show: false,
+                color: '#fff',
+                emphasis: {
+                  color: '#000',
+                  fontWeight: 'bolder'
+                }
+              },
               itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: '#fff'
+                areaColor: '#fff',
+                borderWidth: 1.2
+
+              },
+              emphasis: {
+                itemStyle: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: '#fff'
+                }
+              },
+              data: this.Data
+            }
+          ]
+        },
+        media: [ // 这里定义了 media query 的逐条规则。
+          {
+            query: {maxHeight: 736}, // 这里写规则。
+            option: { // 这里写此规则满足下的option。
+              title: {
+                textStyle: {
+                  color: '#fff',
+                  fontSize: '30',
+                  fontWeight: '100'
+                },
+                left: 'center',
+                top: '2'
+              },
+              visualMap: {
+                right: '5%',
+                top: '10%',
+                textStyle: {
+                  color: '#fff',
+                  fontSize: '12',
+                  fontWeight: 'normal'
+                },
+                itemSymbol: 'arrow',
+                itemWidth: '30',
+                itemHeight: '12',
+                align: 'auto',
+                itemGap: 12
               }
-            },
-            data: this.Data
+            }
           }
         ]
+
       }
       // 绘制图表
       myChart.setOption(option)
